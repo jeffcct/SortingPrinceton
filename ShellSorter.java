@@ -60,8 +60,6 @@ public class ShellSorter {
     }
 
     public static void automaticTester() {
-        
-
         int numNumbers = enterNumber("Please enter how many numbers you will enter: ");
         Integer[] items = new Integer[numNumbers];
         for (int i = 0; i < numNumbers; i++) {
@@ -76,6 +74,10 @@ public class ShellSorter {
     }
 
     public static void main(String[] args) {
+        if (args.length == 0) {
+            playerTester();
+            return;
+        }
         switch (args[0].toLowerCase()) {
             case "automatic":
                 automaticTester();
