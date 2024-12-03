@@ -60,8 +60,6 @@ public class InsertionSorter {
     }
 
     public static void automaticTester() {
-        
-
         int numNumbers = enterNumber("Please enter how many numbers you will enter: ");
         Integer[] items = new Integer[numNumbers];
         for (int i = 0; i < numNumbers; i++) {

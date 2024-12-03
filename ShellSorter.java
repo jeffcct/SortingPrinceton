@@ -26,6 +26,9 @@ public class ShellSorter {
 
         while (h >= 1) {
             for (int i = h; i < N; i++) {
+                if (items[i] == null) {
+                    continue;
+                }
                 for (int j = i; j >= h && items[j].compareTo(items[j - h]) <= 0; j -= h) {
                     swap(items, j, j - h);
                 }

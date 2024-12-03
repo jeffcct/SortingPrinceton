@@ -4,7 +4,6 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
-@SuppressWarnings("unchecked")
 public class Shuffling {
 
     public static Integer enterNumber(String queryText) {
@@ -19,10 +18,10 @@ public class Shuffling {
     }
 
     public static String[] shuffle(String[] items) {
-        KeyPair[] pairedStrings = new KeyPair[items.length];
+        StringKeyPair[] pairedStrings = new StringKeyPair[items.length];
         for (int i = 0 ; i < items.length; i++) {
             if (items[i] == null) break;
-            pairedStrings[i] = new KeyPair(items[i], StdRandom.uniformDouble());
+            pairedStrings[i] = new StringKeyPair(items[i], StdRandom.uniformDouble());
         }
         ShellSorter.sort(pairedStrings);
         for (int i = 0; i < items.length; i++) {
@@ -76,18 +75,18 @@ public class Shuffling {
 }
 
 
-class KeyPair implements Comparable<KeyPair> {
+class StringKeyPair implements Comparable<StringKeyPair> {
     String key;
     Double value;
 
-    public KeyPair(String key, Double value) {
+    public StringKeyPair(String key, Double value) {
         this.key = key;
         this.value = value;
     }
 
 
     @Override
-    public int compareTo(KeyPair o) {
+    public int compareTo(StringKeyPair o) {
         if (this.value == null && o.value == null) return 0;
         if (this.value == null) return -1;
         if (o.value == null) return 1;
