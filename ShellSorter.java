@@ -1,33 +1,39 @@
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
-
 import java.util.Arrays;
 
-public class SelectionSorter {
+public class ShellSorter {
     private static <T extends Comparable<T>> void swap(T[] items, int i, int j) {
         T temp = items[i];
         items[i] = items[j];
         items[j] = temp;
     }
 
+    private static int getMaxH(int N) {
+        int h = 1;
+        while (h < N / 3) h = 3*h + 1;
+        return h;
+    }
+
+    private static int nextH(int previousH) {
+        return previousH / 3;
+    }
+
     public static <T extends Comparable<T>> void sort(T[] items) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) {
-                return;
-            }
-            int minimum = i; 
-            for (int j = i + 1; j < items.length; j++) {
-                if (items[j] == null) {
-                    continue;
-                }
-                if (items[j].compareTo(items[minimum]) <= 0) { // <= will be stable. < will be antistable.
-                    minimum = j;
+        int N = items.length;
+        int h = getMaxH(N);
+
+        while (h >= 1) {
+            for (int i = h; i < N; i++) {
+                for (int j = i; j >= h && items[j].compareTo(items[j - h]) <= 0; j -= h) {
+                    swap(items, j, j - h);
                 }
             }
-            swap(items, i, minimum);
+            h = nextH(h);
         }
     }
+
 
     public static Integer enterNumber(String queryText) {
         while (true) {
@@ -41,13 +47,11 @@ public class SelectionSorter {
     }
 
     public static void playerTester() {
-        StdOut.printf("Please enter how many numbers you will enter: ");
         int numNumbers = enterNumber("Please enter how many numbers you will enter: ");
         Integer[] items = new Integer[numNumbers];
         for (int i = 0; i < numNumbers; i++) {
-            StdOut.printf("Please enter a number to add to items: ");
-            items[i] = enterNumber("Please enter a number to add to items: ");
-            sort(items);
+            items[i] = enterNumber("Please enter a nubmer to add to items: ");
+            //sort(items);
             StdOut.printf("So far you have entered %s%n", Arrays.toString(items));
         } 
         StdOut.printf("Sorting array.%n");
@@ -56,23 +60,25 @@ public class SelectionSorter {
     }
 
     public static void automaticTester() {
+        
+
         int numNumbers = enterNumber("Please enter how many numbers you will enter: ");
         Integer[] items = new Integer[numNumbers];
         for (int i = 0; i < numNumbers; i++) {
             items[i] = StdRandom.uniformInt(-numNumbers * 2, numNumbers * 2);
         } 
         StdOut.printf("Sorting array.%n");
+        long time = System.nanoTime();
         sort(items);
+        long elapsed = System.nanoTime() - time;
         StdOut.printf("Finished sorting array. Array is now: %s%n", Arrays.toString(items));
+        StdOut.printf("Sorting took %.5f seconds", elapsed / 1000000000.0);
     }
 
     public static void main(String[] args) {
         switch (args[0].toLowerCase()) {
             case "automatic":
-                long time = System.nanoTime();
                 automaticTester();
-                long elapsed = System.nanoTime() - time;
-                StdOut.printf("Sorting took %.5f seconds", elapsed / 1000000000.0);
                 break;
             default:
                 playerTester();
